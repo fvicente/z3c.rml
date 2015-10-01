@@ -614,7 +614,11 @@ class TableCell(directive.RMLDirective):
         if len(content) == 0:
             content = self.getAttributeValues(
                 select=('content',), valuesOnly=True)[0]
-        self.parent.cols.append(content)
+        # Need to unescape the content
+        if isinstance(content, basestring):
+            self.parent.cols.append(unescape(content))
+        else:
+            self.parent.cols.append(content)
 
 
 class ITableRow(interfaces.IRMLDirectiveSignature):
