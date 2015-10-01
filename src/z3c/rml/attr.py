@@ -38,8 +38,9 @@ def getFileInfo(directive):
     root = directive
     while root.parent:
         root = root.parent
+    # directive.element.sourceline does not exists on ElementTree
     return '(file %s, line %i)' % (
-        root.filename, directive.element.sourceline)
+        root.filename, directive.element.sourceline if hasattr(directive.element, 'sourceline') else -1)
 
 
 def getManager(context, interface=None):
